@@ -66,12 +66,13 @@ app.post('/api/login', (req, res) => {
         return res.status(401).json({ message: 'Identifiants invalides' });
       }
 
-      // Générer un token JWT sans SECRET_KEY
-      const token = jwt.sign({ id: user.utilisateur_id, email: user.email }, 'default_secret', {
+      // Générer un token JWT
+      const token = jwt.sign({ id: user.id, email: user.email }, 'default_secret', {
         expiresIn: '1h',
       });
 
-      res.json({ message: 'Connexion réussie', token });
+      // Renvoie aussi l'id pour le front
+      res.json({ message: 'Connexion réussie', token, id: user.id });
     });
   });
 });
